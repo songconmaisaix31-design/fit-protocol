@@ -1,0 +1,50 @@
+name: demo
+
+# Regenerates the animated terminal card in README.md from real CLI output.
+# Runs on code changes, on a schedule, and on demand; commits the result back
+# so the image in the README is always the current behaviour, not a mock-up.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'bin/**'
+      - 'core/**'
+      - 'adapters/**'
+      - 'sdk/**'
+      - 'tools/make-demo-svg.mjs'
+      - '.github/workflows/demo.yml'
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: demo-svg
+  cancel-in-progress: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generate animation from live CLI output
+        run: node tools/make-demo-svg.mjs --out assets/demo/fit-demo.svg
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/demo/fit-demo.svg
+          if git diff --cached --quiet; then
+            echo "no change — animation is current"
+          else
+            git commit -m "chore(demo): refresh terminal animation [skip ci]"
+            git push
+          fi

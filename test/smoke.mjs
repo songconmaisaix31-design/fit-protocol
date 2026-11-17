@@ -222,7 +222,20 @@ async function main() {
   });
 
   await check('sdk: Python wrapper lists endpoints', () => {
-    const py = spawnSync('python', ['-c', `
+    // `python` is not guaranteed on Linux runners; accept python3 / py too.
+    let pyBin = null;
+    for (const cand of ['python', 'python3', 'py']) {
+      const probe = spawnSync(cand, ['--version'], { encoding: 'utf8' });
+      if (!probe.error && probe.status === 0) {
+        pyBin = cand;
+        break;
+      }
+    }
+    if (!pyBin) {
+      console.log('        (skipped: no python interpreter on PATH)');
+      return;
+    }
+    const py = spawnSync(pyBin, ['-c', `
 import sys, json
 sys.path.insert(0, r"${join(repo, 'sdk', 'py')}")
 from fit_sdk import Fit
