@@ -1,4 +1,4 @@
-﻿﻿#Requires -Version 5.1
+﻿#Requires -Version 5.1
 <#
 .SYNOPSIS
     把散落的开发环境收敛到一个根目录（幂等，默认不删任何东西）。
