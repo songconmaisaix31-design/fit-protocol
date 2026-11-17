@@ -209,9 +209,28 @@ run = "python -m mypkg doctor"
 ## 资源
 
 - `scripts/setup-env.ps1` — 幂等初始化根目录（`-WhatIf` 预览）
-- `scripts/tools.ps1` — 统一工具入口
+- `scripts/tools.ps1` — 环境侧入口（list / which / doctor / clean）
+- `bin/fit.mjs` — 注册表侧入口（init / discover / register / agent / list / resolve / probe / serve）
+- `adapters/mcp-server.mjs` — MCP 接入面：`fit serve mcp`
+- `adapters/http-server.mjs` — HTTP + A2A 接入面：`fit serve http --port 7777`
+- `sdk/js`、`sdk/py` — 两种 SDK 接入面
 - `assets/repo-template/` — 仓库侧模板，整体拷到仓库根目录即可用：
   - `mise.toml`（改 `[env]` 和 `[tasks]`）
   - `tools/ws.ps1`（改顶部两个常量，再按需加子命令）
   - `tools/README.md`（含给 agent 的约定）
 - `references/windows-gotchas.md` — Windows / PowerShell 的实际坑与验证方法
+- `docs/PROTOCOLS.md` — 五类端点（env/skill/mcp/acp/a2a）与五种接入面的对照表
+
+## 注册表（v0.2）
+
+环境收敛完之后，机器上还需要一个"谁知道有什么"的地方。`fit` 就是它：
+
+```bash
+fit discover --skills ~/.agents/skills --env --save   # 把已有的工具和 skill 收进注册表
+fit agent register my-agent --transport mcp           # agent 注册自己
+fit list --kind skill                                 # 任何一方都能读
+fit probe <name>                                      # 真握手，不是看配置文件
+```
+
+同一个注册表有五个入口：CLI、MCP、HTTP/A2A、JS SDK、Python SDK。
+能力对等（见 SPEC I10）；HTTP 故意只读。

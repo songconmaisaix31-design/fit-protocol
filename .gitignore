@@ -7,3 +7,6 @@ Thumbs.db
 .vscode/
 .idea/
 *.tmp
+
+# Machine-local registry (created by `fit init` when Root is inside the repo)
+registry/fit.json

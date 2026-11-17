@@ -1,0 +1,49 @@
+{
+  "name": "fit-protocol",
+  "version": "0.2.0",
+  "description": "FIT (Fully Integrated Toolchain) — one registry for env tools, skills, MCP, ACP and A2A agents, reachable over CLI, MCP, HTTP and SDKs.",
+  "type": "module",
+  "bin": {
+    "fit": "./bin/fit.mjs"
+  },
+  "exports": {
+    ".": "./sdk/js/index.mjs",
+    "./core": "./core/registry.mjs",
+    "./adapters/mcp": "./adapters/mcp-server.mjs",
+    "./adapters/http": "./adapters/http-server.mjs"
+  },
+  "scripts": {
+    "test": "node test/smoke.mjs",
+    "smoke": "node test/smoke.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "bin/",
+    "core/",
+    "adapters/",
+    "sdk/",
+    "scripts/",
+    "assets/",
+    "references/",
+    "docs/",
+    "SPEC.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "agent",
+    "mcp",
+    "acp",
+    "a2a",
+    "tool-registry",
+    "dev-environment",
+    "mise"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/songconmaisaix31-design/fit-protocol.git"
+  }
+}

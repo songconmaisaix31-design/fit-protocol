@@ -3,9 +3,11 @@
 **F**ully **I**ntegrated **T**oolchain — one root directory for every runtime, package cache, and tool entrypoint on a developer machine.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Spec](https://img.shields.io/badge/spec-v0.1-blue.svg)](SPEC.md)
+[![Spec](https://img.shields.io/badge/spec-v0.2-blue.svg)](SPEC.md)
+[![Surfaces](https://img.shields.io/badge/surfaces-CLI%20%7C%20MCP%20%7C%20HTTP%20%7C%20SDK-purple.svg)](docs/PROTOCOLS.md)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](#compatibility)
 [![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-5391FE.svg?logo=powershell&logoColor=white)](#requirements)
+[![Node](https://img.shields.io/badge/Node-18%2B-339933.svg?logo=node.js&logoColor=white)](#requirements)
 
 ---
 
@@ -13,16 +15,19 @@
 
 | | |
 |---|---|
-| **Problem** | Runtimes installed N times, dependencies downloaded N times, tools scattered across N directories |
-| **Fix** | One root, one store, one cache, one entry — enforced by eight invariants |
-| **Cost** | One directory, five environment variables, two shell profiles |
-| **Not** | A package manager, a container runtime, or a cleanup tool that deletes things |
+| **Problem** | Runtimes installed N times, dependencies downloaded N times, tools and agents scattered across N directories and N protocols |
+| **Fix** | One root, one store, one cache, one **registry** — reachable over CLI, MCP, HTTP and SDKs |
+| **Cost** | One directory, five environment variables, two shell profiles, zero npm dependencies |
+| **Not** | A package manager, a container runtime, a cleanup tool that deletes things, or a chat proxy |
 
-```powershell
+```bash
 git clone https://github.com/songconmaisaix31-design/fit-protocol.git
 pwsh -File fit-protocol/scripts/setup-env.ps1 -Root D:\env -WhatIf   # preview
 pwsh -File fit-protocol/scripts/setup-env.ps1 -Root D:\env           # apply
-tools list                                                            # in a new terminal
+
+node fit-protocol/bin/fit.mjs discover --skills ~/.agents/skills --save
+node fit-protocol/bin/fit.mjs agent register my-agent --transport mcp
+node fit-protocol/bin/fit.mjs list
 ```
 
 ---
@@ -31,6 +36,7 @@ tools list                                                            # in a new
 
 - [The drift](#the-drift)
 - [The idea](#the-idea)
+- [Multi-surface](#multi-surface)
 - [Quickstart](#quickstart)
 - [What you get](#what-you-get)
 - [Verify conformance](#verify-conformance)
@@ -86,6 +92,43 @@ out normatively in [SPEC.md](SPEC.md#4-invariants).
 The practical consequence: **deleting a project's `node_modules` and reinstalling
 it should not hit the network.** If it does, the cache is not actually shared,
 and the protocol is not actually implemented.
+
+## Multi-surface
+
+The registry is not a file you read by hand — it is a hub with five front doors.
+Same data, same rules, whichever one the agent already speaks.
+
+| Surface | Command | Use it when |
+|---|---|---|
+| CLI | `fit list` · `fit register` · `fit probe` | humans, shell scripts, CI |
+| **MCP** | `fit serve mcp` | the agent already speaks MCP |
+| **HTTP + A2A** | `fit serve http --port 7777` | another machine, or an A2A peer |
+| JS SDK | `import { Fit } from 'fit-protocol'` | Node agent runtime, in-process |
+| Python SDK | `from fit_sdk import Fit` | Python agent runtime |
+
+Five endpoint kinds are registrable: **env** (an executable), **skill** (a
+`SKILL.md` directory), **mcp** (a server), **acp** (an Agent Client Protocol
+agent), **a2a** (a remote agent publishing an agent card).
+
+```bash
+fit register env   node          --command "$(which node)"
+fit register skill fit-protocol  --path ~/.agents/skills/fit-protocol
+fit register mcp   github        --command npx --args "-y,@modelcontextprotocol/server-github"
+fit register acp   zed-agent     --command /path/to/agent
+fit register a2a   researcher    --url https://example.com
+
+fit probe github     # spawn it, initialize, list its tools — proves it answers
+```
+
+An agent can register **itself**, then consume the shared inventory:
+
+```bash
+fit agent register my-agent --transport mcp --capabilities registry.read
+fit list --kind skill --json
+```
+
+Parity table, protocol details and explicit non-goals:
+[docs/PROTOCOLS.md](docs/PROTOCOLS.md).
 
 ## Quickstart
 
@@ -290,30 +333,49 @@ tools doctor
 ```text
 fit-protocol/
 ├── README.md
-├── SPEC.md                      # the protocol: terms, invariants, conformance
+├── SPEC.md                      # protocol v0.2: terms, invariants, registry, surfaces
 ├── LICENSE                      # MIT
 ├── SKILL.md                     # agent skill entry (same repo, two audiences)
+├── package.json                 # bin: fit · zero dependencies
+├── bin/
+│   └── fit.mjs                  # CLI: init/discover/register/agent/list/resolve/probe/call/doctor/serve
+├── core/
+│   ├── registry.mjs             # the shared catalogue (+ agents)
+│   ├── providers.mjs            # discovery: PATH, skills dir, mcp.json, agents
+│   ├── probe.mjs                # MCP / ACP / A2A handshakes, env version probe
+│   └── util.mjs
+├── adapters/
+│   ├── mcp-server.mjs           # MCP stdio surface (6 tools)
+│   └── http-server.mjs          # HTTP + A2A agent card + message/send
+├── sdk/
+│   ├── js/index.mjs             # in-process SDK
+│   └── py/fit_sdk.py            # subprocess SDK over the --json contract
 ├── scripts/
-│   ├── setup-env.ps1            # idempotent bootstrap, -WhatIf preview
-│   └── tools.ps1                # entry: list / which / doctor / clean / json
+│   ├── setup-env.ps1            # idempotent environment bootstrap
+│   └── tools.ps1                # env-only entry: list / which / doctor / clean
 ├── references/
 │   └── windows-gotchas.md       # nine reproducible failure modes
 ├── assets/
 │   └── repo-template/           # project-level layering
-│       ├── mise.toml
-│       └── tools/{ws.ps1,README.md}
-└── evals/
-    └── trigger-eval.json        # 20-query routing eval set
+├── docs/
+│   └── PROTOCOLS.md             # surfaces, kinds, parity, non-goals
+├── evals/
+│   └── trigger-eval.json        # 20-query routing eval set
+└── test/
+    ├── smoke.mjs                # 12 checks across every surface
+    └── fixtures/                # stub MCP / ACP / A2A peers
 ```
 
 ## Status
 
-v0.1 — draft. The layout, the eight invariants, and the conformance checks are
-implemented and were exercised on a real machine (two nearly-full volumes, ~130 GB
-reclaimed before adoption). Not yet exercised on Linux/macOS.
+v0.2 — draft, and the multi-surface layer is new. Every surface is exercised by
+`npm test` (12 checks: CLI, discovery, idempotent upsert, five probe kinds, MCP
+stdio handshake + tool calls, HTTP health/registry/agent-card/A2A message, JS SDK,
+Python SDK). The environment half was exercised on a real machine (two nearly-full
+volumes, ~130 GB reclaimed before adoption). Not yet exercised on Linux/macOS.
 
-Planned: a `bash` equivalent of `setup-env.ps1`, and a `tools verify` subcommand
-that runs the §5 checks as a single pass/fail.
+Planned: a `bash` equivalent of `setup-env.ps1`; `fit verify` as a single
+pass/fail over the conformance checks; registry locking for concurrent writers.
 
 ## License
 
