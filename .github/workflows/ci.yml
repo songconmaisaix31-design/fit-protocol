@@ -26,3 +26,6 @@ jobs:
           python3 --version || true
       - name: End-to-end smoke test (CLI, MCP, HTTP/A2A, SDKs)
         run: npm test
+
+      - name: README gate (bilingual coverage, links, images, placeholders)
+        run: node tools/check-readme.mjs README.md
