@@ -88,7 +88,7 @@ async function main() {
   const regEnv = arrow(clean(first(fit('register', 'env', 'node', '--command', 'node'))));
   const regMcp = arrow(
     clean(
-      first(fit('register', 'mcp', 'fit-hub', '--command', process.execPath, '--args', `${FIT},serve,mcp`)),
+      first(fit('register', 'mcp', 'fit-hub', '--command', 'node', '--args', `${FIT},serve,mcp`)),
     ),
   );
   const listLines = fit('list')
