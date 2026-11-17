@@ -80,8 +80,13 @@ function clip(s, n = 88) {
 async function main() {
   // A tiny, deterministic registry so the card looks the same on any runner.
   const first = (s) => s.split('\n').map((l) => l.trim()).filter(Boolean)[0] || '';
+  // Rendered text must not depend on the runner's OS: Windows emits `\`, Linux `/`.
   const clean = (s) =>
-    s.replaceAll(root, '<demo-root>').replaceAll(homedir(), '~').replaceAll(repo, '.');
+    s
+      .replaceAll(root, '<demo-root>')
+      .replaceAll(homedir(), '~')
+      .replaceAll(repo, '.')
+      .replaceAll('\\', '/');
   const arrow = (s) => s.split(' → ')[0];
 
   const initOut = clean(first(fit('init')));
