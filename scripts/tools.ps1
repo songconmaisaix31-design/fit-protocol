@@ -1,4 +1,4 @@
-﻿#Requires -Version 5.1
+﻿﻿#Requires -Version 5.1
 <#
 .SYNOPSIS
     统一工具入口 —— 一台机器上所有开发工具的单一入口。

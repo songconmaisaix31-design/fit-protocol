@@ -1,4 +1,4 @@
-﻿#Requires -Version 5.1
+﻿﻿#Requires -Version 5.1
 <#
 .SYNOPSIS
     把散落的开发环境收敛到一个根目录（幂等，默认不删任何东西）。
@@ -57,7 +57,7 @@ function Ensure-Dir([string]$path) {
 }
 
 # ---------------------------------------------------------------- 0. 校验
-Write-Host "`n== env-unify: $Root ==" -ForegroundColor Cyan
+Write-Host "`n== fit-protocol: $Root ==" -ForegroundColor Cyan
 
 if ($Root -match '\s') { throw "根目录不要带空格：$Root" }
 $drive = (Split-Path -Qualifier $Root)
@@ -118,7 +118,7 @@ if ((Test-Path $miseToml) -and -not $Force) {
 } else {
     $esc = $Root.Replace('\', '\\')
     @"
-# 由 env-unify 生成。运行时不在这里声明，直接复用机器上已有的，
+# 由 fit-protocol 生成。运行时不在这里声明，直接复用机器上已有的，
 # 需要固定版本时取消 [tools] 注释再 `mise install`。
 #
 # [tools]
@@ -166,7 +166,7 @@ if (Get-Command mise -ErrorAction SilentlyContinue) {
     Ensure-Dir $bin
     $tmp = Join-Path ([System.IO.Path]::GetTempPath()) ("mise-" + [guid]::NewGuid().ToString('N'))
     New-Item -ItemType Directory -Force -Path $tmp | Out-Null
-    $iwr = @{ UseBasicParsing = $true; TimeoutSec = 120; Headers = @{ 'User-Agent' = 'env-unify' } }
+    $iwr = @{ UseBasicParsing = $true; TimeoutSec = 120; Headers = @{ 'User-Agent' = 'fit-protocol' } }
     if ($Proxy) { $iwr['Proxy'] = $Proxy }
     try {
         $rel = Invoke-RestMethod -Uri 'https://api.github.com/repos/jdx/mise/releases/latest' @iwr
@@ -199,8 +199,8 @@ Write-Host "`n-- shell 接线" -ForegroundColor Cyan
 if (-not $WireProfile) {
     Say "未启用。加 -WireProfile 可写入 PowerShell profile" 'skip'
 } else {
-    $markerStart = '# >>> env-unify >>>'
-    $markerEnd = '# <<< env-unify <<<'
+    $markerStart = '# >>> fit >>>'
+    $markerEnd = '# <<< fit <<<'
     $block = @"
 $markerStart
 `$env:Path = "$Root\tools;`$env:Path"

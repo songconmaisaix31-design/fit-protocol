@@ -1,4 +1,4 @@
-﻿#Requires -Version 5.1
+﻿﻿#Requires -Version 5.1
 <#
 .SYNOPSIS
     仓库统一入口 —— 复制到 <repo>/tools/ws.ps1，按需加子命令。

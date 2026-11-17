@@ -1,6 +1,6 @@
 {
-  "skill_name": "env-unify",
-  "note": "触发评测集。should_trigger=true 表示这句话应该让 agent 读 env-unify；false 是容易误触发的近似场景。",
+  "skill_name": "fit-protocol",
+  "note": "触发评测集。should_trigger=true 表示这句话应该让 agent 读 fit-protocol；false 是容易误触发的近似场景。",
   "queries": [
     { "id": 1,  "should_trigger": true,  "query": "我这台机器的 C 盘被各种 node 和 python 的副本撑爆了，能不能统一一下" },
     { "id": 2,  "should_trigger": true,  "query": "每个项目都单独装一遍 node_modules 太浪费了，有没有办法共用一份" },

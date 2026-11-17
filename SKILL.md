@@ -1,5 +1,5 @@
 ---
-name: env-unify
+name: fit-protocol
 version: 1.0.0
 description: >-
   把一台机器上散落的开发环境（多个 node/python 副本、各项目的 .venv 与 node_modules、

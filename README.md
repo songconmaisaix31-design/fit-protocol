@@ -241,7 +241,7 @@ run rarely and often on a machine someone depends on.
 **Two profiles, not one.** PowerShell 7 and Windows PowerShell 5.1 read different
 profile files. Writing one means the config "disappears" the moment another shell
 opens. Existing user functions are preserved; FIT's block is wrapped in
-`# >>> env-unify >>>` markers so re-running replaces only that block.
+`# >>> fit >>>` markers so re-running replaces only that block.
 
 **BOM matters.** PowerShell 5.1 decodes a BOM-less UTF-8 script as ANSI. Chinese
 comments then break the parser at a line far from the real cause. Every `.ps1`
