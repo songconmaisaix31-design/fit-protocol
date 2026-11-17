@@ -1,0 +1,13 @@
+# Normalize text files; PowerShell scripts keep CRLF for Windows ergonomics.
+* text=auto eol=lf
+
+*.ps1   text eol=crlf
+*.psm1  text eol=crlf
+*.cmd   text eol=crlf
+*.bat   text eol=crlf
+
+# Binary-ish assets, never convert.
+*.png binary
+*.jpg binary
+*.ico binary
+*.zip binary

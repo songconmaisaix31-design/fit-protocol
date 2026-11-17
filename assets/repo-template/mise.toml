@@ -1,0 +1,38 @@
+# 仓库级工具链（mise）
+#
+# 复制到 <repo>/mise.toml，按需改 [env] 和 [tasks]。
+# 不声明 [tools]：直接复用系统运行时，和全局 <ROOT>\mise.toml 共用一份缓存。
+#
+# 生效前：
+#   mise trust <repo>/mise.toml
+#
+# 用法：
+#   mise tasks
+#   mise run doctor
+
+[env]
+# 让 `python -m <pkg>` 在仓库任意位置都能找到包（按实际结构改）
+PYTHONPATH = "{{config_root}}/src"
+
+# 如果仓库有自己的虚拟环境，把它加到 PATH 前面，任务里就能直接用 `python`
+# 注意：mise.toml 里的路径分隔符在 Windows 上用 / 也可以
+# _.path = ["{{config_root}}/.venv/Scripts"]
+
+[tasks.doctor]
+description = "仓库自检"
+run = "pwsh -NoProfile -File tools/ws.ps1 doctor"
+
+[tasks.projects]
+description = "列出子项目体积与 Git 状态"
+run = "pwsh -NoProfile -File tools/ws.ps1 projects"
+
+[tasks.clean]
+description = "预览可清理的构建产物（加 -Apply 才执行）"
+run = "pwsh -NoProfile -File tools/ws.ps1 clean"
+
+# 按仓库实际情况补充，例如：
+# [tasks.test]
+# run = "python -m pytest -q"
+#
+# [tasks.fmt]
+# run = "ruff format ."

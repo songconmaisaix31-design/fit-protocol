@@ -1,0 +1,27 @@
+{
+  "skill_name": "env-unify",
+  "note": "触发评测集。should_trigger=true 表示这句话应该让 agent 读 env-unify；false 是容易误触发的近似场景。",
+  "queries": [
+    { "id": 1,  "should_trigger": true,  "query": "我这台机器的 C 盘被各种 node 和 python 的副本撑爆了，能不能统一一下" },
+    { "id": 2,  "should_trigger": true,  "query": "每个项目都单独装一遍 node_modules 太浪费了，有没有办法共用一份" },
+    { "id": 3,  "should_trigger": true,  "query": "帮我把开发环境用 mise 收一下，别每个项目各装一份运行时" },
+    { "id": 4,  "should_trigger": true,  "query": "npm、pnpm、uv、pip 的缓存到处散着，能收敛到一个目录吗" },
+    { "id": 5,  "should_trigger": true,  "query": "给这个仓库做一个统一的工具入口，别让脚本散落在各个目录里" },
+    { "id": 6,  "should_trigger": true,  "query": "新电脑想配一套干净的环境管理，以后不要重复下载同样的东西" },
+    { "id": 7,  "should_trigger": true,  "query": "我想把 D:\\env 这套东西整体搬到另一台机器上，要注意什么" },
+    { "id": 8,  "should_trigger": true,  "query": "多个 node 版本打架了，想上版本管理器统一管" },
+    { "id": 9,  "should_trigger": true,  "query": "公司电脑要交接了，帮我把开发环境和缓存集中整理一下" },
+    { "id": 10, "should_trigger": true,  "query": "每次换 shell 我的 tools 命令就没了，profile 到底该写在哪" },
+
+    { "id": 11, "should_trigger": false, "query": "帮我清理 C 盘的临时文件和回收站" },
+    { "id": 12, "should_trigger": false, "query": "怎么安装 node，给我个下载链接" },
+    { "id": 13, "should_trigger": false, "query": "pnpm install 报 EPERM 错误怎么解决" },
+    { "id": 14, "should_trigger": false, "query": "帮我看看 ~/.npmrc 里的 registry 配错了没有" },
+    { "id": 15, "should_trigger": false, "query": "WSL 的 ext4.vhdx 太大了，怎么压缩小一点" },
+    { "id": 16, "should_trigger": false, "query": "Docker 镜像占了 50G，怎么清掉不用的镜像" },
+    { "id": 17, "should_trigger": false, "query": "帮我给这个项目写一个 README" },
+    { "id": 18, "should_trigger": false, "query": "把这段 Python 代码改成异步的" },
+    { "id": 19, "should_trigger": false, "query": "帮我提交代码并推到 GitHub" },
+    { "id": 20, "should_trigger": false, "query": "今天上海天气怎么样" }
+  ]
+}
