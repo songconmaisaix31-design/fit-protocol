@@ -68,6 +68,16 @@ Registration is not authentication — it records intent and capabilities so the
 can report who is attached (`fit list --agents`). Trust boundaries stay with the
 transport: stdio is local, HTTP should be firewalled.
 
+A runnable end-to-end example (raw MCP, no SDK):
+
+```bash
+node examples/mcp-client.mjs --root D:\env
+# connected to fit v0.2.0
+# tools: fit_list, fit_resolve, fit_register, fit_register_agent, fit_probe, fit_doctor
+# registered as example-client (agent_qtffu3g8)
+# skills in the shared registry: 120
+```
+
 ## MCP surface detail
 
 `fit serve mcp` exposes six tools: `fit_list`, `fit_resolve`, `fit_register`,
