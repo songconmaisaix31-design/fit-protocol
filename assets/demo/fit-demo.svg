@@ -31,16 +31,16 @@
   <text x="450" y="35" text-anchor="middle" fill="#7c8db5" font-size="12">fit — one registry · five surfaces</text>
 
   <g class="ln" style="animation-delay:0.35s"><text x="34" y="78" fill="#e2e8f0" xml:space="preserve"><tspan fill="#22d3ee">$ </tspan>fit init</text></g>
-  <g class="ln" style="animation-delay:0.77s"><text x="34" y="101" fill="#64748b" xml:space="preserve">initialised &lt;demo-root&gt;\registry\fit.json</text></g>
+  <g class="ln" style="animation-delay:0.77s"><text x="34" y="101" fill="#64748b" xml:space="preserve">initialised &lt;demo-root&gt;/registry/fit.json</text></g>
   <g class="ln" style="animation-delay:1.19s"><text x="34" y="124" fill="#e2e8f0" xml:space="preserve"><tspan fill="#22d3ee">$ </tspan>fit register env node --command node</text></g>
   <g class="ln" style="animation-delay:1.61s"><text x="34" y="147" fill="#64748b" xml:space="preserve">registered env/node</text></g>
   <g class="ln" style="animation-delay:2.03s"><text x="34" y="170" fill="#e2e8f0" xml:space="preserve"><tspan fill="#22d3ee">$ </tspan>fit register mcp fit-hub --command node --args bin/fit.mjs,serve,mcp</text></g>
   <g class="ln" style="animation-delay:2.45s"><text x="34" y="193" fill="#64748b" xml:space="preserve">registered mcp/fit-hub</text></g>
   <g class="ln" style="animation-delay:2.87s"><text x="34" y="216" fill="#e2e8f0" xml:space="preserve"><tspan fill="#22d3ee">$ </tspan>fit list</text></g>
-  <g class="ln" style="animation-delay:3.29s"><text x="34" y="239" fill="#94a3b8" xml:space="preserve">kind  name     transport  target                            description</text></g>
-  <g class="ln" style="animation-delay:3.71s"><text x="34" y="262" fill="#94a3b8" xml:space="preserve">----  -------  ---------  --------------------------------  -----------</text></g>
+  <g class="ln" style="animation-delay:3.29s"><text x="34" y="239" fill="#94a3b8" xml:space="preserve">kind  name     transport  target                                          description</text></g>
+  <g class="ln" style="animation-delay:3.71s"><text x="34" y="262" fill="#94a3b8" xml:space="preserve">----  -------  ---------  ----------------------------------------------  -----------</text></g>
   <g class="ln" style="animation-delay:4.13s"><text x="34" y="285" fill="#94a3b8" xml:space="preserve">env   node     local      node</text></g>
-  <g class="ln" style="animation-delay:4.55s"><text x="34" y="308" fill="#94a3b8" xml:space="preserve">mcp   fit-hub  stdio      C:\Program Files\nodejs\node.exe</text></g>
+  <g class="ln" style="animation-delay:4.55s"><text x="34" y="308" fill="#94a3b8" xml:space="preserve">mcp   fit-hub  stdio      /opt/hostedtoolcache/node/20.20.2/x64/bin/node</text></g>
   <g class="ln" style="animation-delay:4.97s"><text x="34" y="331" fill="#e2e8f0" xml:space="preserve"><tspan fill="#22d3ee">$ </tspan>fit probe fit-hub</text></g>
   <g class="ln" style="animation-delay:5.39s"><text x="34" y="354" fill="#34d399" xml:space="preserve">mcp/fit-hub: OK</text></g>
   <g class="ln" style="animation-delay:5.81s"><text x="34" y="377" fill="#94a3b8" xml:space="preserve">tools  fit_list, fit_resolve, fit_register, …</text></g>
