@@ -31,7 +31,7 @@
   <text x="450" y="35" text-anchor="middle" fill="#7c8db5" font-size="12">fit — one registry · five surfaces</text>
 
   <g class="ln" style="animation-delay:0.35s"><text x="34" y="78" fill="#e2e8f0" xml:space="preserve"><tspan fill="#22d3ee">$ </tspan>fit init</text></g>
-  <g class="ln" style="animation-delay:0.77s"><text x="34" y="101" fill="#64748b" xml:space="preserve">initialised &lt;demo-root&gt;\registry\fit.json</text></g>
+  <g class="ln" style="animation-delay:0.77s"><text x="34" y="101" fill="#64748b" xml:space="preserve">initialised &lt;demo-root&gt;/registry/fit.json</text></g>
   <g class="ln" style="animation-delay:1.19s"><text x="34" y="124" fill="#e2e8f0" xml:space="preserve"><tspan fill="#22d3ee">$ </tspan>fit register env node --command node</text></g>
   <g class="ln" style="animation-delay:1.61s"><text x="34" y="147" fill="#64748b" xml:space="preserve">registered env/node</text></g>
   <g class="ln" style="animation-delay:2.03s"><text x="34" y="170" fill="#e2e8f0" xml:space="preserve"><tspan fill="#22d3ee">$ </tspan>fit register mcp fit-hub --command node --args bin/fit.mjs,serve,mcp</text></g>
